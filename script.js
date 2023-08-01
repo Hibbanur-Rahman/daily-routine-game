@@ -37,15 +37,53 @@ var images=[
         value : 8,
     },
 ]
-for(var i=1;i<=images.length;i++){
+
+
+// random-ness generater
+function random(){
+    var x=Math.floor(Math.random()*images.length)+1;
+    return x-1;
+}
+
+//checking for repeation
+function repeation(arr1,rnum){
+    for(var j=0;j<arr1.length;j++){
+        if(rnum==arr1[j]){
+            return true;
+        }
+    }
+    return false;
+}
+
+//array for store the random number
+function storeRandom(){
+    var arr=[];
+    for(var i=0;i<images.length;i++){
+        var y=random();
+        if(!repeation(arr,y)){
+            arr.push(y);
+        }
+        else{
+            i--;
+        }   
+    }
+    return arr;
+}
+
+//image listing and add the innerHTML
+var arrayImgList=[];
+arrayImgList=storeRandom();
+for(var i=0;i<images.length;i++){
+   
     itemListing+=`
-                <div class="item" value="${i}">
+                <div class="item" value="${arrayImgList[i]}">
                     <div class="num">
                         <h1></h1>
                     </div>
-                    <img src="${images[i-1].src}" alt="${images[i-1].value}">
+                    <img src="${images[arrayImgList[i]].src}" alt="${images[arrayImgList[i]].value}">
                 </div>
-            `
+                `
+                
 }
 options.innerHTML=itemListing;
 
@@ -78,6 +116,8 @@ item.forEach((element)=> {
    
 });
 
+
+//submit button 
 submit.addEventListener('click',()=>{
     if(flag=='lose'){
         var lose=document.querySelector('.lose');
@@ -95,4 +135,5 @@ submit.addEventListener('click',()=>{
         gif.style.display='block';
         console.log('you are winner');
     }
+    submit.style.pointerEvents='none';
 })
